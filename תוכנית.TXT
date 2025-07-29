@@ -1,0 +1,135 @@
+בהתבסס על הפרויקט שלך, הכנתי תוכנית עבודה מפורטת ל-48 שעות הקרובות:
+יום ראשון (24 שעות)
+09:00-11:00 | שלב 1: הקמת פרויקט והמודולים הבסיסיים
+📋 משימות:
+
+יצירת פרויקט NestJS חדש
+יצירת מודולים: auth, users, shifts, assignments
+הגדרת ראוטים בסיסיים עם תשובות mock
+
+🔗 קישורים:
+
+NestJS First Steps
+Modules Documentation
+Controllers Documentation
+
+11:00-13:00 | JWT והרשאות בסיסיות
+📋 משימות:
+
+התקנה והגדרת JWT
+יצירת AuthModule בסיסי
+הגדרת role-based authentication (soldier/commander)
+
+🔗 קישורים:
+
+Authentication - JWT
+Authorization
+
+14:00-16:00 | שלב 2: Guards ו-Services
+📋 משימות:
+
+יצירת RoleGuard
+יצירת Services עם arrays in-memory
+הגדרת bcrypt להצפנת סיסמאות
+
+🔗 קישורים:
+
+Guards
+Providers
+Security - Encryption
+
+16:00-18:00 | Validation וטיפול בשגיאות
+📋 משימות:
+
+התקנת class-validator
+יצירת DTOs עם validation
+הגדרת Exception Filters בסיסיים
+
+🔗 קישורים:
+
+Validation
+Exception Filters
+Pipes
+
+19:00-21:00 | שלב 3: הכנה לדאטהבייס
+📋 משימות:
+
+התקנת Sequelize וחבילות נלוות
+הגדרת database configuration
+הכנת מבנה המודלים (User, Shift, Assignment)
+
+🔗 קישורים:
+
+Database - Sequelize
+Configuration
+
+יום שני (24 שעות)
+09:00-12:00 | חיבור למסד הנתונים
+📋 משימות:
+
+יצירת חיבור ל-PostgreSQL (cloud)
+הגדרת מודלים ב-Sequelize
+יצירת relationships בין מודלים
+הרצת migrations ראשונות
+
+🔗 קישורים:
+
+Sequelize Models
+Relations
+
+12:00-15:00 | החלפת In-Memory ל-Database
+📋 משימות:
+
+עדכון כל ה-Services לעבוד עם DB
+הגדרת repositories
+בדיקת CRUD operations
+
+🔗 קישורים:
+
+Repository Pattern
+Custom Providers
+
+15:00-17:00 | שלב 4: טיפול בשגיאות מתקדם
+📋 משימות:
+
+יצירת הודעות שגיאה מותאמות
+הגדרת Global Exception Filters
+לוגים בסיסיים
+
+🔗 קישורים:
+
+Exception Filters
+Logging
+
+17:00-19:00 | בדיקות API
+📋 משימות:
+
+יצירת collection ב-Postman
+בדיקת כל ה-endpoints
+וידוא flow מלא: הרשמה → התחברות → פעולות
+
+🔗 קישורים:
+
+OpenAPI (Swagger)
+Testing
+
+19:00-21:00 | פיצ'ר אקסטרה (לבחירה)
+📋 משימות:
+
+בחר אחד מהפיצ'רים הנוספים (ההמלצה: מערכת התראות בסיסית)
+יישום חלקי של הפיצ'ר
+
+🔗 קישורים:
+
+Task Scheduling
+Events
+
+
+טיפים חשובים:
+
+תעדכן כל שעתיים - בדוק שהכל עובד לפני מעבר למשימה הבאה
+תתחיל עם PostgreSQL בענן - Heroku Postgres או Railway.app (חינם)
+תשמור גיבויים - git commit אחרי כל שלב
+תתמקד בפונקציונליות הבסיסית - אל תיתקע בפרטים קטנים
+
+בהצלחה! 🚀RetryClaude can make mistakes. Please double-check responses.
