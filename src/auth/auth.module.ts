@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AuteController } from './aute.controller';
-import { AuteService } from './aute.service';
+import { AuteController } from './auth.controller';
+import { AuteService } from './auth.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/users/user.entity';
 import { JwtModule } from '@nestjs/jwt';
-
+import { JwtStrategy } from './guards/jwt.strategy';
 @Module({
   imports: [
     TypeOrmModule.forFeature([User]),
@@ -16,6 +16,6 @@ import { JwtModule } from '@nestjs/jwt';
     }),
   ],
   controllers: [AuteController],
-  providers: [AuteService]
+  providers: [AuteService,JwtStrategy]
 })
 export class AuteModule { }

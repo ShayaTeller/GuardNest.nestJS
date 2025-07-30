@@ -1,24 +1,37 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { AuteService } from './aute.service'
+import { Body, Controller, Post, Res } from '@nestjs/common';
+import { AuteService } from './auth.service'
 import { auteLoginDto } from './dto/authDto'
 import { UnauthorizedException } from '@nestjs/common';
+import { SetCookies } from '@nestjsplus/cookies';
+import { Response } from 'express'; // הוסף את זה
 
-@Controller('/aute')
+
+@Controller('/auth')
 export class AuteController {
     constructor(private readonly AuteService: AuteService) { }
 
     @Post('/login')
-    async userAuth(@Body() auteLoginDto: auteLoginDto) {
+    async userAuth(@Body() auteLoginDto: auteLoginDto,
+        @Res({ passthrough: true }) res: Response // הוסף את זה
+    ) {
         try {
             const hashedPassword = await this.AuteService.bringHashCodeFromDB(auteLoginDto)
             const isPasswordValid = await this.AuteService.comparePasswords(auteLoginDto, hashedPassword)
 
             if (isPasswordValid) {
                 const tokenData = await this.AuteService.generatToken(auteLoginDto);
+
+                res.cookie('access_token', tokenData.newToken, {
+                    httpOnly: true,     // לא נגיש ל-JavaScript בדפדפן
+                    secure: false,      // false לפיתוח, true לפרודקשן
+                    maxAge: 24 * 60 * 60 * 1000, // 24 שעות
+                    sameSite: 'lax'     // הגנה מפני CSRF
+                });
+
+
                 return {
-                    message: 'login succesfuli',
-                    ...tokenData
-                };
+                    message: 'login successful'}
+
             }
             else {
                 throw new UnauthorizedException('Invalid username or password');
@@ -46,5 +59,6 @@ export class AuteController {
         }
     }
 
-
 }
+
+
