@@ -2,7 +2,7 @@ import { Injectable, Param } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Shift } from './shift.entity';
 import { Repository } from 'typeorm';
-import {creatShiftDto} from './dto/shift.Dto'
+import {CreateShiftDto} from './dto/shift.Dto'
 @Injectable()
 export class ShiftsService {
     constructor(
@@ -11,7 +11,7 @@ export class ShiftsService {
 
 
 
-    async addShift(ShiftDto:creatShiftDto){
+    async addShift(ShiftDto:CreateShiftDto){
       
         const shift = await this.shiftRepo.create({
             startTime:ShiftDto.startTime,

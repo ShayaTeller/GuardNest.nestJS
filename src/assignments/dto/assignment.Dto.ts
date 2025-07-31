@@ -1,9 +1,9 @@
 import { IsNumber, } from "class-validator";
 
-export class CreateAssignDto {
+export class CreateAssignmentDto  {
     @IsNumber()
     shift_id: number;
     @IsNumber()
-    solder_id: number
+    soldier_id: number
 
 }

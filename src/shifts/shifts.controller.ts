@@ -2,7 +2,7 @@ import { Body, Controller, UseGuards, Post, Get, Param } from '@nestjs/common';
 import { ShiftsService } from './shifts.service';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
-import { creatShiftDto } from './dto/shift.Dto';
+import { CreateShiftDto } from './dto/shift.Dto';
 import { JwtAuthGuard } from '../auth/guards/jwt.guard'
 @Controller('shifts')
 export class ShiftsController {
@@ -11,7 +11,7 @@ export class ShiftsController {
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('commander')
     @Post()
-    async createShift(@Body() ShiftDto: creatShiftDto) {
+    async createShift(@Body() ShiftDto: CreateShiftDto) {
         return await this.shiftsService.addShift(ShiftDto)
     }
 
@@ -23,9 +23,10 @@ export class ShiftsController {
         return this.shiftsService.getAllShifts()
     }
 
+    @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('commander')
     @Get('/:id')
-    async getUserById(@Param() params) {
+    async getShiftById(@Param() params) {
         return await this.shiftsService.getShiftById(params.id)
 
     }

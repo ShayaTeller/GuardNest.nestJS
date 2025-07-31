@@ -2,22 +2,22 @@ import { Injectable } from '@nestjs/common';
 import { Assignments } from './assignment.Entity'
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateAssignDto } from './dto/assignment.Dto'
+import { CreateAssignmentDto  } from './dto/assignment.Dto'
 
 
 @Injectable()
-export class AssignmentsService {
+export class assignmentsService {
     constructor(
         @InjectRepository(Assignments)
-        private assingnRepo: Repository<Assignments>) { }
+        private assignmentRepo: Repository<Assignments>) { }
 
-    async createNewAssing(Dto: CreateAssignDto, commanderId: number) {
-        const newAssing = await this.assingnRepo.create({
+    async createAssignment(Dto: CreateAssignmentDto , commanderId: number) {
+        const newAssing = await this.assignmentRepo.create({
             shift_id: Dto.shift_id,
-            solder_id: Dto.solder_id,
+            soldier_id: Dto.soldier_id,
             assignedBy: commanderId,
         })
-        return this.assingnRepo.save(newAssing)
+        return this.assignmentRepo.save(newAssing)
     }
 
 

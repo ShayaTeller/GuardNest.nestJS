@@ -13,7 +13,7 @@ export class Assignments extends BaseEntity {
     shift_id: number;
 
     @Column()
-    solder_id: number
+    soldier_id: number
 
     
     @Column({ default: () => 'CURRENT_TIMESTAMP' })
@@ -23,7 +23,7 @@ export class Assignments extends BaseEntity {
     assignedBy: number; 
 
     @ManyToOne(() => User)
-    @JoinColumn({ name: 'solder_id', referencedColumnName: 'id' })  // solderId מצביע על User.id
+    @JoinColumn({ name: 'soldier_id', referencedColumnName: 'id' })  // solderId מצביע על User.id
     user: User
 
     @ManyToOne(() => Shift)

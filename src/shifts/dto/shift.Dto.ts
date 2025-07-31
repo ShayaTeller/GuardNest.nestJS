@@ -1,7 +1,7 @@
 import { IsNumber, IsString, } from "class-validator"
 
 
-export class creatShiftDto {
+export class CreateShiftDto {
 
     @IsNumber()
     startTime: number;
