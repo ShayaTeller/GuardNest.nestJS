@@ -1,98 +1,207 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🛡️ מערכת ניהול שמירות צבאיות
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+פרויקט NestJS למערכת ניהול משמרות במסגרת צבאית עם מערכת הגנה ובקרת גישה.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## 🎯 מטרת הפרויקט
 
-## Description
+מערכת המאפשרת:
+- **למפקדים:** יצירת משמרות והקצאת חיילים
+- **לחיילים:** צפייה במשמרות שלהם בלבד
+- **אבטחה:** בקרת גישה לפי תפקיד עם JWT
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+---
 
-## Project setup
+## 💻 טכנולוגיות בשימוש
 
-```bash
-$ npm install
+| טכנולוגיה | תיאור | גרסה |
+|-----------|--------|-------|
+| **NestJS** | Framework לשרת Node.js | 11.x |
+| **TypeORM** | ORM למסד נתונים | 0.3.x |
+| **PostgreSQL** | מסד נתונים יחסי (Neon Cloud) | - |
+| **JWT** | אסימוני אימות | @nestjs/jwt |
+| **Passport** | מערכת אימות | passport-jwt |
+| **bcrypt** | הצפנת סיסמאות | 6.x |
+| **class-validator** | וולידציה של נתונים | 0.14.x |
+| **Cookie Parser** | ניהול cookies | 1.4.x |
+
+---
+
+## 📁 מבנה הפרויקט
+
+```
+src/
+├── main.ts                    # נקודת כניסה
+├── app.module.ts              # מודול ראשי
+├── app.controller.ts          # בקר בסיסי
+├── app.service.ts             # שירות בסיסי
+│
+├── auth/                      # מודול אימות
+│   ├── guards/               # שומרי הגישה
+│   ├── decorators/           # דקורטורים מותאמים
+│   ├── auth.module.ts
+│   ├── auth.controller.ts
+│   ├── auth.service.ts
+│   └── dto/
+│
+├── users/                     # מודול משתמשים
+│   ├── users.module.ts
+│   ├── users.controller.ts
+│   ├── users.service.ts
+│   ├── user.entity.ts
+│   ├── hashPassword.ts
+│   └── dto/
+│
+├── shifts/                    # מודול משמרות (בפיתוח)
+└── assignments/               # מודול הקצאות (טרם פותח)
 ```
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ npm run start
+## 📊 פירוט קבצים ופונקציות
 
-# watch mode
-$ npm run start:dev
+### 🔐 **Auth Module**
 
-# production mode
-$ npm run start:prod
+#### `auth.controller.ts`
+| Route | Method | פונקציה | מקבל | מחזיר |
+|-------|--------|----------|------|--------|
+| `/auth/login` | POST | `userAuth()` | `auteLoginDto` | JWT בcookie + הצלחה |
+| `/auth/validate` | POST | `validateToken()` | `{token: string}` | פרטי משתמש |
+
+#### `auth.service.ts`
+| פונקציה | פרמטרים | מחזיר | תיאור |
+|----------|----------|--------|-------|
+| `bringHashCodeFromDB()` | `auteLoginDto` | `string` | שליפת hash סיסמה |
+| `comparePasswords()` | `dto, hash` | `boolean` | השוואת סיסמאות |
+| `generatToken()` | `auteLoginDto` | `{token, user}` | יצירת JWT |
+| `validateToken()` | `token: string` | `payload` | וולידציית טוקן |
+
+#### `guards/jwt.guard.ts`
+| פונקציה | פרמטרים | מחזיר | תיאור |
+|----------|----------|--------|-------|
+| `canActivate()` | `ExecutionContext` | `boolean` | בדיקת JWT מcookie |
+
+#### `guards/roles.guard.ts`
+| פונקציה | פרמטרים | מחזיר | תיאור |
+|----------|----------|--------|-------|
+| `canActivate()` | `ExecutionContext` | `boolean` | בדיקת הרשאות תפקיד |
+
+#### `jwt.strategy.ts`
+| פונקציה | פרמטרים | מחזיר | תיאור |
+|----------|----------|--------|-------|
+| `validate()` | `payload: any` | `user object` | פענוח JWT לפרטי משתמש |
+
+---
+
+### 👥 **Users Module**
+
+#### `users.controller.ts`
+| Route | Method | פונקציה | מקבל | מחזיר | הגנה |
+|-------|--------|----------|------|--------|-------|
+| `/users` | GET | `getAllUsers()` | - | `User[]` | מפקדים בלבד |
+| `/users` | POST | `createNewUser()` | `CreateUserDto` | `User` | מפקדים בלבד |
+| `/users/:id` | GET | `getUserById()` | `id` | `User` | - |
+| `/users/:id` | DELETE | `deleteUserById()` | `id` | הודעה | מפקדים בלבד |
+
+#### `users.service.ts`
+| פונקציה | פרמטרים | מחזיר | תיאור |
+|----------|----------|--------|-------|
+| `findAllUsers()` | - | `User[]` | כל המשתמשים |
+| `createUser()` | `CreateUserDto` | `User` | יצירת משתמש חדש |
+| `findUserById()` | `id: number` | `User` | משתמש לפי ID |
+| `deleteUser()` | `id: number` | הודעה | מחיקת משתמש |
+
+#### `user.entity.ts` - מבנה הטבלה
+```typescript
+- id: number (PK, Auto)
+- userName: string
+- role: string ('commander' | 'soldier')
+- passwordHash: string
+- createdAt: Date
 ```
 
-## Run tests
+---
 
-```bash
-# unit tests
-$ npm run test
+## 🔄 דוגמת זרימה: "מפקד רוצה לראות את כל המשתמשים"
 
-# e2e tests
-$ npm run test:e2e
+```mermaid
+sequenceDiagram
+    participant C as Client/Browser
+    participant G as Guards
+    participant UC as UsersController
+    participant US as UsersService
+    participant DB as PostgreSQL
 
-# test coverage
-$ npm run test:cov
+    C->>+UC: GET /users (עם cookie)
+    UC->>+G: JwtAuthGuard.canActivate()
+    G->>G: חילוץ JWT מcookie
+    G->>G: אימות טוקן
+    G-->>-UC: ✅ משתמש מאומת
+    
+    UC->>+G: RolesGuard.canActivate()
+    G->>G: בדיקת @Roles('commander')
+    G->>G: user.role === 'commander'?
+    G-->>-UC: ✅ הרשאה תקינה
+    
+    UC->>+US: findAllUsers()
+    US->>+DB: SELECT * FROM user
+    DB-->>-US: רשימת משתמשים
+    US-->>-UC: User[]
+    UC-->>-C: 200 OK + רשימת משתמשים
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+### **במקרה של חייל שמנסה לגשת:**
+```
+Client → Guards → RolesGuard: user.role = 'soldier' ❌
+← 403 Forbidden
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## 🚀 הרצת הפרויקט
 
-Check out a few resources that may come in handy when working with NestJS:
+```bash
+# התקנת תלויות
+npm install
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+# הרצה במצב פיתוח
+npm run start:dev
 
-## Support
+# השרת יעלה על: http://localhost:3000
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+---
 
-## Stay in touch
+## 🔒 מערכת האבטחה
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### **JWT Token Structure:**
+```json
+{
+  "username": "דוד כהן",
+  "id": 1,
+  "role": "commander",
+  "iat": 1234567890,
+  "exp": 1234654290
+}
+```
 
-## License
+### **רמות הרשאה:**
+- **Commander:** גישה מלאה לכל הפעולות
+- **Soldier:** צפייה במידע אישי בלבד
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+---
+
+## 📈 סטטוס פיתוח
+
+- ✅ **מערכת אימות** - JWT + Guards
+- ✅ **ניהול משתמשים** - CRUD מוגן
+- 🚧 **ניהול משמרות** - בפיתוח
+- ⏳ **מערכת הקצאות** - בתכנון
+
+---
+
+## 🛠️ מה הלאה?
+
+1. השלמת מודול Shifts
+2. יצירת מודול Assignments 
+3. הוספת ממשק משתמש (Frontend)
+4. בדיקות אוטומטיות
