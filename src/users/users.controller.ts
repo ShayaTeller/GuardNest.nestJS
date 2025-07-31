@@ -11,16 +11,20 @@ import { Roles } from '../auth/decorators/roles.decorator';
 @Controller('users')
 export class UsersController {
     constructor(private readonly UsersService: UsersService) { }
-    
+
     @UseGuards(JwtAuthGuard, RolesGuard)
     @Roles('commander')
     @Get()
+    
     async getAllUsers() {
         return await this.UsersService.findAllUsers();
     }
+    
+    // @UseGuards(JwtAuthGuard, RolesGuard)
+    // @Roles('commander')
+
 
     @Post()
-
     async createNewUser(@Body() CreateUserDto: CreateUserDto) {
         return await this.UsersService.createUser(CreateUserDto);
     }
@@ -31,7 +35,8 @@ export class UsersController {
         return await this.UsersService.findUserById(params.id);
 
     }
-
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles('commander')
     @Delete('/:id')
     async deleteUserById(@Param() params) {
         return await this.UsersService.deleteUser(params.id)
